@@ -1,42 +1,43 @@
-# D-Clutter
+# System Administration & Automation Scripts
 
-A lightweight Bash utility for automated log parsing and archive management. D-Clutter scans specified directories for log files, extracts critical failure data into a consolidated report, and safely archives the raw logs to optimize disk space.
+A centralized repository containing a collection of Bash scripts designed for Linux system administration, automated log management, user provisioning, and stream processing.
 
-## Features
-* **Automated Parsing:** Scans `.log` files for `ERROR`, `CRITICAL`, `FATAL`, and `WARNING` flags.
-* **Incident Reporting:** Consolidates all matched flags into a single `incident_report.txt`.
-* **Space Optimization:** Compresses processed logs into a `.zip` archive (stripping absolute paths) and removes the raw files.
-* **Idempotent Execution:** Clears previous archives before running to prevent corruption.
+## 🗂 Project Directory
 
-## Prerequisites
-* A Linux/Unix environment (or WSL)
-* `zip` utility installed (`sudo apt install zip` for Debian/Ubuntu)
+### 1. [D-Clutter](./d-clutter/)
+A lightweight utility for automated log parsing and archive management.
+* **Core Skills:** File system navigation, conditional archiving, text extraction.
+* **Functionality:** Scans target directories for log files, extracts `ERROR`, `CRITICAL`, `FATAL`, and `WARNING` flags into a consolidated incident report, and safely compresses the raw logs into a `.zip` archive while strictly preserving disk space.
 
-## Setup & Execution
+### 2. [Aksess](./aksess/)
+A system provisioning and workspace configuration tool requiring root privileges.
+* **Core Skills:** User/Group management, ownership (`chown`), permission modification (`chmod`), network retrieval (`wget`), and text stream manipulation (`sed`, `grep`, `diff`).
+* **Functionality:** Idempotently provisions a development team (users and groups), configures a secure shared workspace with strict numeric permissions, fetches remote assets, physically manipulates text streams in-place, and generates difference logs.
 
-1. **Clone the repository:**
+---
+
+## 🚀 Setup & Execution
+
+### Prerequisites
+* A Linux/Unix environment (or WSL).
+* Appropriate privileges (Some scripts like `aksess.sh` require execution via `sudo`).
+* Standard utilities installed (`zip`, `wget`, `grep`, `sed`, `awk`).
+
+### Running a Script
+1. Clone the repository to your local machine:
    ```bash
-   git clone [https://github.com/yourusername/d-clutter.git](https://github.com/yourusername/d-clutter.git)
-   cd d-clutter
+   git clone [https://github.com/yourusername/bash-scripts.git](https://github.com/yourusername/bash-scripts.git)
+   cd bash-scripts
    ```
-
-2. **Make the script executable:**
+2. Navigate to the desired project directory:
    ```bash
-   chmod 744 dclutter.sh
+   cd aksess
    ```
-
-3. **Configure your target directory:**
-   Open `dclutter.sh` and update the `MY_DIR` variable to point to your target log directory.
-
-4. **Run the script:**
+3. Grant execution permissions:
    ```bash
-   ./dclutter.sh
+   chmod +x aksess.sh
    ```
-
-## Project Structure
-```text
-d-clutter/
-├── .gitignore             # Ignores raw logs, archives, and local reports
-├── dclutter.sh            # The core execution script
-└── README.md              # Documentation
-```
+4. Execute the script:
+   ```bash
+   sudo ./aksess.sh
+   ```
