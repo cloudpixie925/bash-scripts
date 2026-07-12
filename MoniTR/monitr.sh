@@ -1,3 +1,9 @@
+#!/bin/bash
+
+set -o history
+HISTFILE=~/.bash_history
+history -r
+
 syscheck(){
     free -h
     ping -c 1 8.8.8.8
@@ -8,11 +14,11 @@ syscheck(){
     fi
 }
 filehunter(){
-    LOG_FILES=($(find "/var/log" -name "*.log"))
+    mapfile -t LOG_FILES < < (find "/var/log" -name "*.log")
     for LOG_FILE in "${LOG_FILES[@]}"; do
         zip -j "sys_logs.zip" "$LOG_FILE"
-        zip -sf "sys_logs.zip" >> archived_list.txt
     done
+    zip -sf "sys_logs.zip" >> archived_list.txt
 
 
 }
@@ -31,13 +37,15 @@ process_manager(){
 
 echo "Which module would you like to run?(sys/files/proc)"
 echo "If your module is proc, please enter if you want top/history after proc"
-read MODULE
+
+read MODULE ARGUMENT
 echo $MODULE | rev
 if [ "$MODULE" = "sys" ]; then
     syscheck
 elif [ "$MODULE" = "files" ]; then
     filehunter
 elif [ "$MODULE" = "proc" ]; then
-    process_manager
+    process_manager "$ARGUMENT"
 else
     echo "Please enter the correct module"
+fi
